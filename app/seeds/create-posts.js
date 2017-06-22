@@ -29,9 +29,9 @@ exports.seed = function(knex, Promise) {
     })
     .then(function (postIds) {
       return Promise.all([
-        knex('comments').insert({post_id: postIds[0], content: 'Firsties!'}),
-        knex('comments').insert({post_id: postIds[0], content: 'I did it for the lulz'}),
-        knex('comments').insert({post_id: postIds[2], content: 'This comment thread is so lonely'}),
+        knex('comments').insert({post_id: postIds[0], content: 'First to comment!'}),
+        knex('comments').insert({post_id: postIds[0], content: 'Awesome'}),
+        knex('comments').insert({post_id: postIds[2], content: 'Great post!'}),
       ])
     })
 
