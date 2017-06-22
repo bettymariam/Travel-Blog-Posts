@@ -1,0 +1,106 @@
+<main class="container">
+
+  <div class="pull-right">
+    <p><a ng-click="$ctrl.togglePostForm()" class="btn btn-info">New Post</a></p>
+  </div>
+
+  <ul class="nav nav-pills">
+    <li role="presentation" class="active">
+      <input type="search" class="form-control input-sm search-form" placeholder="Filter" ng-model="search.$">
+    </li>
+    <li>
+    <div class="form-inline">
+      <label for="sort">Sort By</label>
+      <select class="form-control" id="sort" ng-model="$ctrl.sort">
+        <option value="vote_count">Votes</option>
+        <option value="created_at">Date</option>
+        <option value="title">Title</option>
+      </select>
+    </div>
+  </li>
+  </ul>
+
+  <div class="row" ng-if="$ctrl.addingPost">
+    <div class="col-md-8">
+      <form novalidate class="form" name="$ctrl.postForm"  ng-submit="$ctrl.createPost()">
+        <div ng-class="{'has-error': $ctrl.postForm.title.$invalid && $ctrl.postForm.title.$touched }">
+          <label for="title">Title</label>
+          <input class="form-control" name="title" required ng-model="$ctrl.post.title" type="text">
+        </div>
+        <div ng-class="{'has-error': $ctrl.postForm.body.$invalid && $ctrl.postForm.body.$touched }">
+          <label for="body">Body</label>
+          <textarea id="body" name="body" class="form-control" ng-model="$ctrl.post.body" required></textarea>
+        </div>
+        <div ng-class="{'has-error': $ctrl.postForm.author.$invalid && $ctrl.postForm.author.$touched }">
+          <label for="author">Author</label>
+          <input type="text" id="author" name="author" class="form-control" ng-model="$ctrl.post.author" required>
+        </div>
+        <div ng-class="{'has-error': $ctrl.postForm.image_url.$invalid && $ctrl.postForm.image_url.$touched }">
+          <label for="image_url">Image URL</label>
+          <input type="url" id="image_url"  name="image_url" class="form-control" ng-model="$ctrl.post.image_url" required>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" ng-disabled="$ctrl.postForm.$invalid">
+            Create Post
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <div ng-repeat="post in $ctrl.posts | filter:search | orderBy:$ctrl.sort" class="well" class="well">
+        <div class="media-left">
+          <img ng-src="{{post.image_url}}" class="media-object">
+          <p class="text-center">
+          <a ui-sref="editPost({id: post.id})">edit post</a>
+        </p>
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">
+            {{post.title}}
+            |
+            <a ng-click="$ctrl.voteUp(post)"><i class="glyphicon glyphicon-arrow-up"></i></a>
+            <a ng-click="$ctrl.voteDown(post)"><i class="glyphicon glyphicon-arrow-down"></i></a>
+            {{post.vote_count}}
+          </h4>
+          <div class="text-right">
+            {{post.author}}
+          </div>
+          <p>
+            {{post.body}}
+          </p>
+          <div>
+            <span am-time-ago="post.created_at"></span>
+            |
+            <i class="glyphicon glyphicon-comment"></i>
+            <a ng-click="showComments=!showComments">
+              <ng-pluralize
+                count="post.comments.length"
+                when="{'0': '0 Comments', 'one': '1 Comment', 'other': '{} Comments'}">
+              </ng-pluralize>
+            </a>
+          </div>
+          <div class="row" ng-if="showComments">
+            <div class="col-md-offset-1">
+              <hr>
+              <p ng-repeat="comment in post.comments">
+                {{comment.content}}
+              </p>
+              <form ng-submit="$ctrl.createComment(post)" class="form-inline">
+                <div class="form-group">
+                  <input ng-model="post.comment.content" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input type="submit" class="btn btn-primary">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
