@@ -1,9 +1,14 @@
+const path = require('path')
 module.exports = {
 
   development: {
     client: 'pg',
-    connection: {
-      database: process.env.DATABASE_URL || 'travel-blog-db',
+    connection: 'postgres://localhost/travel-blog-db',
+    migrations: {
+      directory: path.join(__dirname, 'db', 'migrations')
+    },
+    seeds: {
+      directory: path.join(__dirname, 'db', 'seeds')
     }
   },
 
@@ -16,8 +21,12 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection: {
-      database: process.env.DATABASE_URL || 'travel-blog-db',
+    connection: process.env.DATABASE_URL,
+    migrations: {
+      directory: path.join(__dirname, 'db', 'migrations')
+    },
+    seeds: {
+      directory: path.join(__dirname, 'db', 'seeds')
     }
   }
 
