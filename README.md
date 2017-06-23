@@ -3,8 +3,8 @@
 An Angular application built in the style of reddit that allows users to CRUD data from a server.
 
 ## Installation Instructions:
-Fork and clone
-Run NPM Install
+Fork and clone  
+Run NPM Install  
 Create a postgresql database called travel-blog-db
   ```
   createdb travel-blog-db
