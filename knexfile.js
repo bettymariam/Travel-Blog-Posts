@@ -12,6 +12,13 @@ module.exports = {
     connection: {
       database: process.env.DATABASE_URL || 'travel-blog-db-test',
     }
+  },
+
+  production: {
+    client: 'pg',
+    connection: {
+      database: process.env.DATABASE_URL || 'travel-blog-db',
+    }
   }
 
 };
